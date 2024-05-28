@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list </title>
+    <link rel="icon" href="/img/list.png">
+    <link rel="stylesheet" href="output.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="h-screen w-screen grid place-items-center">
+    <div
+      class="main rounded-lg flex flex-col items-center justify-center bg-slate-50"
+    >
+      <form
+        class="w-full h-1/5 pt-2 px-1 flex items-center justify-center gap-2"
+        action="/"
+        method="post"
+      >
+        <input
+          class="w-3/5 outline-none border-2 border-violet-500 rounded-lg text-center bg-transparent p-1"
+          type="text"
+          name="item"
+          id="input"
+        />
+        <button
+          class="px-6 py-2 rounded-3xl bg-violet-500 hover:bg-violet-600 text-white"
+          type="submit"
+          id="submit"
+        >
+          Add
+        </button>
+      </form>
+      <div class="list w-full h-4/5 ">
+        <ul class="overflow-y-suto mx-auto" id="list">
+          <form action="/delete" method="post">
+            <% items.forEach(item => {%>
+            <li class="list-items flex items-center gap-5 bg-slate-50 p-2">
+              <input type="checkbox" name="checkbox" onchange="this.form.submit()" value="<%= item.id %>" />
+              <%= item.name %>
+            </li>
+            <% });%>
+          </form>
+        </ul>
+      </div>
+    </div>
+
+    <script src="script2.js"></script>
+  </body>
+</html>
