@@ -2,11 +2,10 @@
   "name": "to-do-list",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "build": "tailwindcss -i ./public/input.css -o ./public/output.css --watch"
+    "start": "nodemon app.js && tailwindcss -i ./public/input.css -o ./public/output.css --watch"
   },
   "author": "Rabbi",
   "license": "ISC",

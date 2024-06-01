@@ -13,7 +13,7 @@ mongoose.connect("mongodb+srv://mmrabbi625442:mongo123@cluster0.lpqnnvm.mongodb.
   })
   .catch((err) => {
     console.log(err);
-  });
+});
 
 const listSchema = new mongoose.Schema({
   name: "string",
