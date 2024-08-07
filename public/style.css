@@ -21,6 +21,7 @@ body {
   padding: 0px;
   margin: 0;
   font-family: Nunito;
+  transition: all 0.3s;
 }
 
 .main {
@@ -67,11 +68,5 @@ body {
   }
   .list {
     padding: 10px 1rem;
-  }
-  form {
-    flex-direction: column;
-  }
-  #input {
-    width: 90%;
   }
 }
