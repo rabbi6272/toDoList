@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect(process.env.MONGO_URl)
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("connected to db");
   })
