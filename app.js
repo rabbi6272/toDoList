@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -8,9 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect(
-    "mongodb+srv://mmrabbi625442:mongo123@cluster0.lpqnnvm.mongodb.net/toDoListDB"
-  )
+  .connect(process.env.MONGO_URl)
   .then(() => {
     console.log("connected to db");
   })
@@ -20,6 +19,7 @@ mongoose
 
 const listSchema = new mongoose.Schema({
   item: "string",
+  completed: Boolean,
 });
 
 const Item = mongoose.model("item", listSchema);
@@ -31,7 +31,9 @@ app.get("/", async (req, res) => {
     if (items.length === 0) {
       items = [
         {
+          _id: "1",
           item: "Welcome to your To Do List",
+          completed: false,
         },
       ];
     }
@@ -50,9 +52,21 @@ app.post("/", async (req, res) => {
   }
 });
 
-app.post("/delete", async (req, res) => {
+app.put("/", async (req, res) => {
   try {
-    const checkedItemId = req.body.checkbox;
+    const updatedItem = await Item.findOneAndUpdate(
+      { _id: req.body.id },
+      { completed: req.body.completed }
+    );
+    res.status(200).send(updatedItem);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+app.delete("/", async (req, res) => {
+  try {
+    const checkedItemId = req.body.id;
     await Item.deleteOne({ _id: checkedItemId });
     res.status(200).send("deleted");
   } catch (err) {
@@ -60,6 +74,14 @@ app.post("/delete", async (req, res) => {
   }
 });
 
+app.delete("/reset", async (req, res) => {
+  try {
+    await Item.deleteMany({});
+    res.status(200).send("deleted");
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 app.listen(5000, () => {
   console.log("listening on *:5000");
 });
