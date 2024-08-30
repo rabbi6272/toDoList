@@ -43,7 +43,7 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   try {
-    const savedItem = await new Item({ name: req.body.item }).save();
+    const savedItem = await new Item({ item: req.body.item }).save();
     res.status(200).send(savedItem);
   } catch (err) {
     res.status(500).send(err);
