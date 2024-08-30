@@ -1,11 +1,11 @@
 const express = require("express");
-const app = express();
-
 const mongoose = require("mongoose");
+const cors = require("cors");
 
+const app = express();
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/public"));
-app.set("view engine", "ejs");
 
 mongoose
   .connect(
@@ -19,7 +19,7 @@ mongoose
   });
 
 const listSchema = new mongoose.Schema({
-  name: "string",
+  item: "string",
 });
 
 const Item = mongoose.model("item", listSchema);
@@ -31,23 +31,22 @@ app.get("/", async (req, res) => {
     if (items.length === 0) {
       items = [
         {
-          name: "Welcome to your To Do List",
+          item: "Welcome to your To Do List",
         },
       ];
     }
-    res.render("home", { items: items });
+    res.status(200).send(items);
   } catch (err) {
-    res.send(err);
+    res.status(500).send(err);
   }
 });
 
 app.post("/", async (req, res) => {
   try {
-    const item = req.body.item;
-    await new Item({ name: item }).save();
-    res.redirect("/");
+    const savedItem = await new Item({ name: req.body.item }).save();
+    res.status(200).send(savedItem);
   } catch (err) {
-    res.send(err);
+    res.status(500).send(err);
   }
 });
 
@@ -55,12 +54,12 @@ app.post("/delete", async (req, res) => {
   try {
     const checkedItemId = req.body.checkbox;
     await Item.deleteOne({ _id: checkedItemId });
-    res.redirect("/");
+    res.status(200).send("deleted");
   } catch (err) {
-    res.send(err);
+    res.status(500).send(err);
   }
 });
 
-app.listen(3000, () => {
-  console.log("listening on *:3000");
+app.listen(5000, () => {
+  console.log("listening on *:5000");
 });
